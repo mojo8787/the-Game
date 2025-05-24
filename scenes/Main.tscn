@@ -1,8 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://bfkgghs8abr8n"]
+[gd_scene load_steps=16 format=3 uid="uid://bfkgghs8abr8n"]
 
 [ext_resource type="PackedScene" uid="uid://cl6jtftbqccjj" path="res://scenes/Player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://bq2x8vpjg86xh" path="res://scenes/Enemy.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://bcw7n7t6kp8qg" path="res://scenes/Coin.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://cnhq5fgktbg2m" path="res://scenes/Coin.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://djv8k4hng2vqx" path="res://scenes/Boss.tscn" id="4"]
 [ext_resource type="Script" uid="uid://bqpmf3y0xkqg7" path="res://scripts/GameManager.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://dve3mypb5knfq" path="res://assets/sky_1.png" id="6"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://v85kg264t3eb" path="res://assets/greenery_1.png" id="10"]
 [ext_resource type="Texture2D" uid="uid://deqm7wwr06e7g" path="res://assets/new_ground_1.png" id="11"]
 [ext_resource type="Texture2D" uid="uid://brabyu3evmx4r" path="res://assets/wooden_platform_1.png" id="12"]
+[ext_resource type="PackedScene" uid="uid://b8h5tpryp2o0v" path="res://scenes/Inventory.tscn" id="13"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_main_ground"]
 size = Vector2(1600, 40)
@@ -131,3 +132,17 @@ position = Vector2(1100, 436)
 
 [node name="ScoreLabel" type="Label" parent="UI"]
 text = "Score: 0"
+
+[node name="HelpLabel" type="Label" parent="UI"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -60.0
+offset_right = 300.0
+offset_bottom = -10.0
+text = "Press I, Tab, or Esc to open inventory
+WASD/Arrow Keys: Move
+Space/W/Up: Jump"
+
+[node name="Inventory" parent="UI" instance=ExtResource("13")]
