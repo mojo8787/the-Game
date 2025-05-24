@@ -4,6 +4,9 @@ extends CharacterBody2D
 @export var jump_velocity: float = -400.0
 @export var gravity: float = 900.0
 
+@onready var jump_audio: AudioStreamPlayer = $JumpAudio
+@onready var hit_audio: AudioStreamPlayer = $HitAudio
+
 func _physics_process(delta: float) -> void:
 	var dir := Input.get_axis("move_left", "move_right")
 	velocity.x = dir * speed
@@ -13,6 +16,7 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
+		jump_audio.play()
 
 	move_and_slide()
 
@@ -21,5 +25,8 @@ func _physics_process(delta: float) -> void:
 
 func _on_hurtbox_body_entered(body: Node) -> void:
 	if body.is_in_group("enemy"):
-		# Simple damage → restart level
+		# Play hit sound before restarting
+		hit_audio.play()
+		# Wait a moment for the sound to play, then restart
+		await hit_audio.finished
 		get_tree().reload_current_scene() 
