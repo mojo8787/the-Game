@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cl6jtftbqccjj" path="res://scenes/Player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://bq2x8vpjg86xh" path="res://scenes/Enemy.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://cnhq5fgktbg2m" path="res://scenes/Coin.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://bcw7n7t6kp8qg" path="res://scenes/Coin.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://djv8k4hng2vqx" path="res://scenes/Boss.tscn" id="4"]
 [ext_resource type="Script" uid="uid://bqpmf3y0xkqg7" path="res://scripts/GameManager.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://dve3mypb5knfq" path="res://assets/sky_1.png" id="6"]
@@ -146,3 +146,5 @@ WASD/Arrow Keys: Move
 Space/W/Up: Jump"
 
 [node name="Inventory" parent="UI" instance=ExtResource("13")]
+grow_horizontal = 2
+grow_vertical = 2

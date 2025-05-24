@@ -12,7 +12,6 @@ radius = 8.0
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1")
-groups = ["player"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2")
