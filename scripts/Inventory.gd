@@ -42,15 +42,6 @@ func _ready():
 	# Setup audio
 	setup_audio()
 
-func _input(event):
-	if event.is_action_pressed("inventory"):
-		print("Inventory key pressed! Opening/closing inventory...")
-		toggle_inventory()
-	
-	# Debug: Print all key presses to see what's being detected
-	if event is InputEventKey and event.pressed:
-		print("Key pressed: ", event.keycode, " (", event.physical_keycode, ")")
-
 func setup_audio():
 	# Create audio players for sound effects
 	click_sound = AudioStreamPlayer.new()

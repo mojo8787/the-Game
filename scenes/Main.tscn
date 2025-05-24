@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://v85kg264t3eb" path="res://assets/greenery_1.png" id="10"]
 [ext_resource type="Texture2D" uid="uid://deqm7wwr06e7g" path="res://assets/new_ground_1.png" id="11"]
 [ext_resource type="Texture2D" uid="uid://brabyu3evmx4r" path="res://assets/wooden_platform_1.png" id="12"]
-[ext_resource type="PackedScene" uid="uid://b8h5tpryp2o0v" path="res://scenes/Inventory.tscn" id="13"]
+[ext_resource type="PackedScene" path="res://scenes/Inventory.tscn" id="13"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_main_ground"]
 size = Vector2(1600, 40)

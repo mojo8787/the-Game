@@ -8,13 +8,25 @@ func _ready() -> void:
     for coin in get_tree().get_nodes_in_group("coin"):
         coin.collected.connect(_on_coin_collected)
     
-    # Debug: Check if inventory is properly connected
-    print("GameManager ready. Inventory node: ", inventory)
-    if inventory == null:
-        print("ERROR: Inventory not found! Check scene structure.")
-    
     # Add some test items to inventory after a short delay
     call_deferred("setup_test_inventory")
+
+func _input(event):
+    if event is InputEventKey and event.pressed:
+        # Manual key checking for inventory
+        if event.keycode == KEY_I or event.physical_keycode == KEY_I:
+            toggle_inventory()
+        elif event.keycode == KEY_TAB or event.physical_keycode == KEY_TAB:
+            toggle_inventory()
+        elif event.keycode == KEY_ESCAPE or event.physical_keycode == KEY_ESCAPE:
+            toggle_inventory()
+
+func toggle_inventory():
+    if inventory == null:
+        return
+    
+    if inventory.has_method("toggle_inventory"):
+        inventory.toggle_inventory()
 
 func _on_coin_collected() -> void:
     score += 1
@@ -25,10 +37,7 @@ func setup_test_inventory():
     await get_tree().process_frame
     
     if inventory == null:
-        print("ERROR: Cannot setup inventory - inventory node is null")
         return
-    
-    print("Setting up test inventory...")
     
     # Add some test items to demonstrate the inventory system
     inventory.add_item(ItemDatabase.create_item("pistol"))
@@ -36,6 +45,4 @@ func setup_test_inventory():
     inventory.add_item(ItemDatabase.create_item("tactical_helmet"))
     inventory.add_item(ItemDatabase.create_item("keycard"))
     inventory.add_item(ItemDatabase.create_item("grenade"))
-    inventory.add_item(ItemDatabase.create_item("kevlar_vest"))
-    
-    print("Inventory system ready! Press 'I', 'Tab', or 'Esc' to open inventory.") 
+    inventory.add_item(ItemDatabase.create_item("kevlar_vest")) 
