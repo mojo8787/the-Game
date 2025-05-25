@@ -53,13 +53,13 @@ var jv: float = -400.0            # Avoid
 
 # Comment complex logic
 func _physics_process(delta: float) -> void:
-    # Handle horizontal movement
-    var direction := Input.get_axis("move_left", "move_right")
-    velocity.x = direction * speed
-    
-    # Apply gravity when not on ground
-    if not is_on_floor():
-        velocity.y += gravity * delta
+	# Handle horizontal movement
+	var direction := Input.get_axis("move_left", "move_right")
+	velocity.x = direction * speed
+	
+	# Apply gravity when not on ground
+	if not is_on_floor():
+		velocity.y += gravity * delta
 ```
 
 ### Scene Organization

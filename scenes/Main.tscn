@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://bfkgghs8abr8n"]
 
-[ext_resource type="PackedScene" uid="uid://cl6jtftbqccjj" path="res://scenes/Player.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/PlayerAnimated.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://bq2x8vpjg86xh" path="res://scenes/Enemy.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://bcw7n7t6kp8qg" path="res://scenes/Coin.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://djv8k4hng2vqx" path="res://scenes/Boss.tscn" id="4"]
@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://v85kg264t3eb" path="res://assets/greenery_1.png" id="10"]
 [ext_resource type="Texture2D" uid="uid://deqm7wwr06e7g" path="res://assets/new_ground_1.png" id="11"]
 [ext_resource type="Texture2D" uid="uid://brabyu3evmx4r" path="res://assets/wooden_platform_1.png" id="12"]
-[ext_resource type="PackedScene" path="res://scenes/Inventory.tscn" id="13"]
+[ext_resource type="PackedScene" uid="uid://b8h5tpryp2o0v" path="res://scenes/Inventory.tscn" id="13"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_main_ground"]
 size = Vector2(1600, 40)
@@ -43,6 +43,7 @@ position = Vector2(512, 350)
 texture = ExtResource("7")
 
 [node name="ForestLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+visible = false
 motion_scale = Vector2(0.3, 0.2)
 motion_mirroring = Vector2(1024, 0)
 
@@ -114,7 +115,7 @@ shape = SubResource("RectangleShape2D_platform")
 position = Vector2(64, 436)
 
 [node name="Enemy" parent="." instance=ExtResource("2")]
-position = Vector2(480, 436)
+position = Vector2(534, 336)
 
 [node name="Coin" parent="." instance=ExtResource("3")]
 position = Vector2(288, 380)

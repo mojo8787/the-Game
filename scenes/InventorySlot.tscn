@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cb5j8hw2q7v3g"]
 
-[ext_resource type="Script" uid="uid://ya1egne2fc4m" path="res://scripts/InventorySlot.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/InventorySlot.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://cowqbrp0xnxk7" path="res://assets/ui/inventory_slot_1.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://7ykyb5tbc0f6" path="res://assets/ui/inventory_highlight_1.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://cjeyewre6p7dy" path="res://assets/ui/teal_glow_animation.png" id="4"]

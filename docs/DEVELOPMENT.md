@@ -33,24 +33,24 @@ extends CharacterBody2D
 @export var gravity: float = 900.0
 
 func _physics_process(delta: float) -> void:
-    # Horizontal movement
-    var dir := Input.get_axis("move_left", "move_right")
-    velocity.x = dir * speed
-    
-    # Gravity application
-    if not is_on_floor():
-        velocity.y += gravity * delta
-    
-    # Jump mechanics
-    if Input.is_action_just_pressed("jump") and is_on_floor():
-        velocity.y = jump_velocity
-    
-    # Apply movement
-    move_and_slide()
-    
-    # Fall detection
-    if position.y > 1000:
-        get_tree().reload_current_scene()
+	# Horizontal movement
+	var dir := Input.get_axis("move_left", "move_right")
+	velocity.x = dir * speed
+	
+	# Gravity application
+	if not is_on_floor():
+		velocity.y += gravity * delta
+	
+	# Jump mechanics
+	if Input.is_action_just_pressed("jump") and is_on_floor():
+		velocity.y = jump_velocity
+	
+	# Apply movement
+	move_and_slide()
+	
+	# Fall detection
+	if position.y > 1000:
+		get_tree().reload_current_scene()
 ```
 
 ### Enemy AI (`Enemy.gd`)
@@ -62,17 +62,17 @@ extends CharacterBody2D
 var direction: int = 1
 
 func _physics_process(delta: float) -> void:
-    # Apply gravity
-    velocity.y += gravity * delta
-    
-    # Horizontal patrol movement
-    velocity.x = speed * direction
-    
-    # Turn around at walls/edges
-    if is_on_wall():
-        direction *= -1
-    
-    move_and_slide()
+	# Apply gravity
+	velocity.y += gravity * delta
+	
+	# Horizontal patrol movement
+	velocity.x = speed * direction
+	
+	# Turn around at walls/edges
+	if is_on_wall():
+		direction *= -1
+	
+	move_and_slide()
 ```
 
 ### Boss AI (`Boss.gd`)
@@ -86,17 +86,17 @@ extends CharacterBody2D
 var player: CharacterBody2D
 
 func _ready() -> void:
-    player = get_tree().get_first_node_in_group("player") as CharacterBody2D
+	player = get_tree().get_first_node_in_group("player") as CharacterBody2D
 
 func _physics_process(delta: float) -> void:
-    velocity.y += gravity * delta
-    
-    # Track player position
-    if player:
-        var dir_sign: float = sign(player.global_position.x - global_position.x)
-        velocity.x = dir_sign * speed
-    
-    move_and_slide()
+	velocity.y += gravity * delta
+	
+	# Track player position
+	if player:
+		var dir_sign: float = sign(player.global_position.x - global_position.x)
+		velocity.x = dir_sign * speed
+	
+	move_and_slide()
 ```
 
 ### Coin Collection (`Coin.gd`)
@@ -106,12 +106,12 @@ extends Area2D
 signal collected
 
 func _ready() -> void:
-    body_entered.connect(_on_body_entered)
+	body_entered.connect(_on_body_entered)
 
 func _on_body_entered(body: Node) -> void:
-    if body.is_in_group("player"):
-        emit_signal("collected")
-        queue_free()
+	if body.is_in_group("player"):
+		emit_signal("collected")
+		queue_free()
 ```
 
 ### Game Management (`GameManager.gd`)
@@ -121,13 +121,13 @@ extends Node
 var score: int = 0
 
 func _ready() -> void:
-    # Connect to all coin signals
-    for coin in get_tree().get_nodes_in_group("coin"):
-        coin.collected.connect(_on_coin_collected)
+	# Connect to all coin signals
+	for coin in get_tree().get_nodes_in_group("coin"):
+		coin.collected.connect(_on_coin_collected)
 
 func _on_coin_collected() -> void:
-    score += 1
-    $UI/ScoreLabel.text = "Score: %d" % score
+	score += 1
+	$UI/ScoreLabel.text = "Score: %d" % score
 ```
 
 ## 🎨 Parallax System
@@ -173,16 +173,16 @@ limit_bottom = 500
 # project.godot input configuration
 [input]
 move_left={
-    "deadzone": 0.5,
-    "events": [A key, Left Arrow]
+	"deadzone": 0.5,
+	"events": [A key, Left Arrow]
 }
 move_right={
-    "deadzone": 0.5,
-    "events": [D key, Right Arrow]
+	"deadzone": 0.5,
+	"events": [D key, Right Arrow]
 }
 jump={
-    "deadzone": 0.5,
-    "events": [Space, W key, Up Arrow]
+	"deadzone": 0.5,
+	"events": [Space, W key, Up Arrow]
 }
 ```
 
@@ -259,13 +259,13 @@ textures/canvas_textures/default_texture_filter=0  # Pixel-perfect rendering
 ```gdscript
 # Enable debug collision shapes
 func _ready():
-    get_tree().debug_collisions_hint = true
+	get_tree().debug_collisions_hint = true
 
 # Print debug information
 func _physics_process(delta):
-    print("Player position: ", global_position)
-    print("Velocity: ", velocity)
-    print("On floor: ", is_on_floor())
+	print("Player position: ", global_position)
+	print("Velocity: ", velocity)
+	print("On floor: ", is_on_floor())
 ```
 
 ## 🚀 Build and Export
