@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bfkgghs8abr8n"]
+[gd_scene load_steps=18 format=3 uid="uid://bfkgghs8abr8n"]
 
 [ext_resource type="PackedScene" path="res://scenes/PlayerAnimated.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://bq2x8vpjg86xh" path="res://scenes/Enemy.tscn" id="2"]
@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://deqm7wwr06e7g" path="res://assets/new_ground_1.png" id="11"]
 [ext_resource type="Texture2D" uid="uid://brabyu3evmx4r" path="res://assets/wooden_platform_1.png" id="12"]
 [ext_resource type="PackedScene" uid="uid://b8h5tpryp2o0v" path="res://scenes/Inventory.tscn" id="13"]
+[ext_resource type="PackedScene" path="res://scenes/Drone.tscn" id="14"]
+[ext_resource type="PackedScene" path="res://scenes/AnimatedDrone.tscn" id="15"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_main_ground"]
 size = Vector2(1600, 40)
@@ -129,22 +131,93 @@ position = Vector2(950, 340)
 [node name="Boss" parent="." instance=ExtResource("4")]
 position = Vector2(1100, 436)
 
+[node name="Drone" parent="." instance=ExtResource("14")]
+position = Vector2(400, 250)
+
+[node name="Drone2" parent="." instance=ExtResource("14")]
+position = Vector2(800, 200)
+
+[node name="AnimatedDrone1" parent="." instance=ExtResource("15")]
+position = Vector2(200, 180)
+
+[node name="AnimatedDrone2" parent="." instance=ExtResource("15")]
+position = Vector2(1000, 150)
+
 [node name="UI" type="CanvasLayer" parent="."]
 
+[node name="UIPanel" type="Panel" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
 [node name="ScoreLabel" type="Label" parent="UI"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 24
 text = "Score: 0"
 
-[node name="HelpLabel" type="Label" parent="UI"]
-anchors_preset = 2
+[node name="ControlsPanel" type="Panel" parent="UI"]
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -140.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="ControlsLabel" type="Label" parent="UI/ControlsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
-offset_top = -60.0
-offset_right = 300.0
+offset_top = 10.0
+offset_right = -10.0
 offset_bottom = -10.0
-text = "Press I, Tab, or Esc to open inventory
-WASD/Arrow Keys: Move
-Space/W/Up: Jump"
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "🎮 ENHANCED PLATFORMER CONTROLS
+
+🔸 A/D or ←/→: Move
+🔸 Space/W/↑: Jump
+🔸 Hold Shift: Run (faster movement)
+🔸 Hold Jump: Higher jumps
+🔸 I/Tab/Esc: Inventory
+
+✨ FEATURES:
+• Coyote Time: Jump grace period
+• Jump Buffering: Pre-input jumps
+• Variable Jump Height
+• Screen Shake & Particles
+• Footstep Audio
+• Animated Drones: Patrol & detect player"
+
+[node name="TitleLabel" type="Label" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(1, 1, 0.8, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 20
+text = "Animated Platformer ✨"
+horizontal_alignment = 2
 
 [node name="Inventory" parent="UI" instance=ExtResource("13")]
 grow_horizontal = 2

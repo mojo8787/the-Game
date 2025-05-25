@@ -1,0 +1,109 @@
+[gd_scene load_steps=10 format=3 uid="uid://animated_drone_scene"]
+
+[ext_resource type="Script" path="res://scripts/AnimatedDrone.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/w/hovering drone.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/w/movesforward.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/w/moveforwarddrone.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/w/dronescan.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/w/sligtly moving forovard.png" id="6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_animated_drone"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6")
+}],
+"loop": true,
+"name": &"hover",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4")
+}],
+"loop": true,
+"name": &"flying",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2")
+}],
+"loop": true,
+"name": &"scanning",
+"speed": 3.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_animated_drone"]
+radius = 20.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detection_animated"]
+radius = 100.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_animated_thruster"]
+direction = Vector3(0, 1, 0)
+spread = 20.0
+initial_velocity_min = 25.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, -40, 0)
+scale_min = 0.15
+scale_max = 0.4
+
+[node name="AnimatedDrone" type="CharacterBody2D"]
+script = ExtResource("1")
+collision_layer = 4
+collision_mask = 1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.08, 0.08)
+sprite_frames = SubResource("SpriteFrames_animated_drone")
+animation = &"hover"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_animated_drone")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="DetectionCollision" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_detection_animated")
+
+[node name="ThrusterParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, 15)
+emitting = true
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_animated_thruster")
+lifetime = 1.2
+
+[node name="ScanBeam" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 80)
+width = 2.0
+default_color = Color(0, 1, 1, 0.6)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="MovementTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="ScanTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+volume_db = -15.0
+pitch_scale = 1.2
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="timeout" from="MovementTimer" to="." method="_on_movement_timer_timeout"]
+[connection signal="timeout" from="ScanTimer" to="." method="_on_scan_timer_timeout"] 
