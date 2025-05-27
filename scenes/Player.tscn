@@ -1,16 +1,16 @@
 [gd_scene load_steps=15 format=3 uid="uid://cl6jtftbqccjj"]
 
 [ext_resource type="Script" uid="uid://8cpy67lm8rt6" path="res://scripts/Player.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/characters/player/idle.png" id="2"]
-[ext_resource type="Texture2D" path="res://assets/characters/player/walk1.png" id="3"]
-[ext_resource type="Texture2D" path="res://assets/characters/player/walk2.png" id="4"]
-[ext_resource type="Texture2D" path="res://assets/characters/player/walk3.png" id="5"]
-[ext_resource type="Texture2D" path="res://assets/characters/player/jump.png" id="6"]
-[ext_resource type="Texture2D" path="res://assets/characters/player/fall.png" id="7"]
-[ext_resource type="Texture2D" path="res://assets/characters/player/run1.png" id="8"]
-[ext_resource type="Texture2D" path="res://assets/characters/player/run2.png" id="9"]
-[ext_resource type="AudioStream" uid="uid://3s2lfoqa4wr" path="res://assets/jump.wav" id="10"]
-[ext_resource type="AudioStream" uid="uid://dlsysx1adkw00" path="res://assets/enemy_hit.wav" id="11"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/player/idle.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/player/walk1.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/player/walk2.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/player/walk3.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/player/jump.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/player/fall.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/player/run1.png" id="8"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/player/run2.png" id="9"]
+[ext_resource type="AudioStream" uid="uid://3s2lfoqa4wr" path="res://assets/audio/sfx/jump.wav" id="10"]
+[ext_resource type="AudioStream" uid="uid://dlsysx1adkw00" path="res://assets/audio/sfx/enemy_hit.wav" id="11"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
@@ -68,9 +68,12 @@ animations = [{
 radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hurtbox"]
+radius = 10.0
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1")
+collision_layer = 1
+collision_mask = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_player")
@@ -96,9 +99,31 @@ volume_db = -10.0
 stream = ExtResource("11")
 volume_db = -5.0
 
+[node name="FootstepAudio" type="AudioStreamPlayer" parent="."]
+volume_db = -15.0
+
+[node name="JumpParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, 8)
+emitting = false
+amount = 10
+lifetime = 0.5
+
+[node name="LandingParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, 8)
+emitting = false
+amount = 15
+lifetime = 0.8
+
+[node name="FootstepTimer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = false
+
 [node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 1
+collision_mask = 2
 
 [node name="HurtboxCollision" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_hurtbox")
 
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]
+[connection signal="timeout" from="FootstepTimer" to="." method="_on_footstep_timer_timeout"]

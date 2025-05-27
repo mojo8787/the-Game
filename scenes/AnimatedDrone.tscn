@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://animated_drone_scene"]
 
 [ext_resource type="Script" path="res://scripts/AnimatedDrone.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/w/hovering drone.png" id="2"]
-[ext_resource type="Texture2D" path="res://assets/w/movesforward.png" id="3"]
-[ext_resource type="Texture2D" path="res://assets/w/moveforwarddrone.png" id="4"]
-[ext_resource type="Texture2D" path="res://assets/w/dronescan.png" id="5"]
-[ext_resource type="Texture2D" path="res://assets/w/sligtly moving forovard.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/npcs/drone/drone_hovering.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/npcs/drone/drone_moves_forward.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/npcs/drone/drone_move_forward.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/npcs/drone/drone_scanning.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/graphics/characters/npcs/drone/drone_moving_slightly_forward.png" id="6"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_animated_drone"]
 animations = [{
@@ -60,7 +60,7 @@ scale_max = 0.4
 
 [node name="AnimatedDrone" type="CharacterBody2D"]
 script = ExtResource("1")
-collision_layer = 4
+collision_layer = 2
 collision_mask = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -75,6 +75,13 @@ shape = SubResource("CircleShape2D_animated_drone")
 
 [node name="DetectionCollision" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_detection_animated")
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="DamageCollision" type="CollisionShape2D" parent="DamageArea"]
+shape = SubResource("CircleShape2D_animated_drone")
 
 [node name="ThrusterParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, 15)
@@ -105,5 +112,6 @@ pitch_scale = 1.2
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="area_entered" from="DamageArea" to="." method="_on_damage_area_area_entered"]
 [connection signal="timeout" from="MovementTimer" to="." method="_on_movement_timer_timeout"]
 [connection signal="timeout" from="ScanTimer" to="." method="_on_scan_timer_timeout"] 

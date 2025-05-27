@@ -50,6 +50,7 @@ func _ready():
 	add_to_group("enemy")
 	
 	print("Drone initialized at position: ", start_position)
+	print("Drone groups: ", get_groups())
 
 func setup_patrol_points():
 	# Create a patrol pattern around the starting position
@@ -84,7 +85,7 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 
-func handle_hovering(delta: float):
+func handle_hovering(_delta: float):
 	animated_sprite.play("hover")
 	velocity = Vector2.ZERO
 	
@@ -93,7 +94,7 @@ func handle_hovering(delta: float):
 		movement_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
 		velocity = movement_direction * hover_speed * 0.3
 
-func handle_patrolling(delta: float):
+func handle_patrolling(_delta: float):
 	animated_sprite.play("flying")
 	
 	var target = patrol_points[current_patrol_index]
@@ -120,7 +121,7 @@ func handle_scanning(delta: float):
 	# Make scan beam visible
 	scan_beam.visible = true
 
-func handle_chasing(delta: float):
+func handle_chasing(_delta: float):
 	if player_reference:
 		animated_sprite.play("flying")
 		var direction = (player_reference.global_position - global_position).normalized()
@@ -135,7 +136,7 @@ func handle_chasing(delta: float):
 	else:
 		change_state(DroneState.RETURNING)
 
-func handle_returning(delta: float):
+func handle_returning(_delta: float):
 	animated_sprite.play("flying")
 	var direction = (start_position - global_position).normalized()
 	velocity = direction * patrol_speed
@@ -203,10 +204,10 @@ func update_visual_effects():
 	var speed_factor = velocity.length() / chase_speed
 	if thruster_particles and thruster_particles.process_material:
 		# Access the scale property through the process material
-		var material = thruster_particles.process_material as ParticleProcessMaterial
-		if material:
-			material.scale_min = 0.2 + speed_factor * 0.3
-			material.scale_max = 0.5 + speed_factor * 0.5
+		var particle_material = thruster_particles.process_material as ParticleProcessMaterial
+		if particle_material:
+			particle_material.scale_min = 0.2 + speed_factor * 0.3
+			particle_material.scale_max = 0.5 + speed_factor * 0.5
 	
 	# Update scan beam visibility
 	if current_state == DroneState.SCANNING:
@@ -261,4 +262,13 @@ func disable_drone():
 	"""Call this to disable the drone (e.g., when destroyed)"""
 	change_state(DroneState.HOVERING)
 	thruster_particles.emitting = false
-	animated_sprite.modulate = Color.GRAY 
+	animated_sprite.modulate = Color.GRAY
+
+func _on_damage_area_area_entered(area: Area2D) -> void:
+	# Check if the area belongs to the player
+	var player = area.get_parent()
+	if player and player.has_method("_physics_process") and area.name == "Hurtbox":
+		print("Drone damaged player!")
+		# Call the player's damage function directly
+		if player.has_method("_on_hurtbox_body_entered"):
+			player._on_hurtbox_body_entered(self) 

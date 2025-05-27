@@ -38,6 +38,12 @@ func _ready():
 	# Store original camera offset
 	if camera:
 		original_camera_offset = camera.offset
+	
+	# Debug: Print player collision setup
+	print("Player initialized - collision_layer: ", collision_layer, " collision_mask: ", collision_mask)
+	var hurtbox = $Hurtbox
+	if hurtbox:
+		print("Hurtbox found - collision_layer: ", hurtbox.collision_layer, " collision_mask: ", hurtbox.collision_mask)
 
 func _physics_process(delta: float) -> void:
 	var dir := Input.get_axis("move_left", "move_right")
@@ -195,11 +201,15 @@ func update_screen_shake(delta: float) -> void:
 		shake_intensity = 0.0
 
 func _on_hurtbox_body_entered(body: Node) -> void:
+	print("Hurtbox collision detected with: ", body.name, " - Groups: ", body.get_groups())
 	if body.is_in_group("enemy"):
+		print("Enemy collision confirmed! Killing player...")
 		# Screen shake on hit
 		add_screen_shake(8.0, 0.3)
 		# Play hit sound before restarting
 		hit_audio.play()
 		# Wait a moment for the sound to play, then restart
 		await hit_audio.finished
-		get_tree().reload_current_scene() 
+		get_tree().reload_current_scene()
+	else:
+		print("Body is not in enemy group") 
